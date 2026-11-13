@@ -1,0 +1,22 @@
+{
+  "name": "infrared-change",
+  "displayName": "Infrared change",
+  "version": "0.31.0",
+  "description": "Infrared's change conventions as skills and hooks: a branch of its own for each Change, conventional commits, the pull request's body, evidence, the verdict, the progress entry, the hand-off and the rollout-flag lifecycle; a hook that refuses a commit whose subject is not conventional, and one that asks for the pull request's body before a builder session in ir local work ends.",
+  "author": {
+    "name": "Darkshift",
+    "url": "https://darkshift.io"
+  },
+  "homepage": "https://darkshift.io",
+  "repository": "https://github.com/darkshiftio/infrared-plugins",
+  "license": "Apache-2.0",
+  "keywords": [
+    "infrared",
+    "skills",
+    "hooks",
+    "conventional-commits",
+    "pull-requests",
+    "code-review",
+    "feature-flags"
+  ]
+}

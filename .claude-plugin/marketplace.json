@@ -1,0 +1,16 @@
+{
+  "name": "infrared",
+  "description": "Claude Code plugins for Infrared, Darkshift's software factory for people who work with agents.",
+  "owner": {
+    "name": "Darkshift",
+    "url": "https://darkshift.io"
+  },
+  "plugins": [
+    {
+      "name": "infrared-change",
+      "source": "./plugins/infrared-change",
+      "description": "Infrared's change conventions as skills and hooks: a branch of its own for each Change, conventional commits, the pull request's body, evidence, the verdict, the progress entry, the hand-off and the rollout-flag lifecycle; a hook that refuses a commit whose subject is not conventional, and one that asks for the pull request's body before a builder session in ir local work ends.",
+      "category": "development"
+    }
+  ]
+}
