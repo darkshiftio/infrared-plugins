@@ -12,9 +12,11 @@ A repository that carries Infrared's agent harness keeps an append-only log of w
 session's orientation reads. The log is the repository's own record: write to it, never rewrite it.
 
 1. **Find the harness.** It is `.infrared/` at the repository's top level, and its manifest is
-   `.infrared/harness.json`. The manifest's `paths.progress` names the log, relative to the top level: read it from
-   the manifest rather than typing a path. A repository with no `.infrared/harness.json`, or a manifest with no
-   `paths.progress`, keeps no log: nothing to do.
+   `.infrared/harness.json`. Resolve the log's path through the harness's own CLI rather than typing it. The manifest
+   names the CLI as `paths.cli`, relative to the repository's root, and the CLI's file name has changed between
+   versions of the harness, so read it there rather than assume it. From the root:
+   `node "$(node -p "require('./.infrared/harness.json').paths.cli")" path progress`. A repository with no
+   `.infrared/harness.json`, or a manifest with no `paths.progress`, keeps no log: nothing to do.
 2. **Append one entry** at the end, under a heading with today's date and a title:
 
    ```markdown
