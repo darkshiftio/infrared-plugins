@@ -72,10 +72,10 @@ Claude Code loads a skill when the work in front of it matches the skill's descr
   summary, the plan, each acceptance criterion and how it was met, what was verified, and `Closes #<n>`.
 - **`evidence`**: the proof of the work (the gate's output, test and coverage reports, screenshots) goes in
   `.infrared/artifacts/`, which is never committed.
-- **`verdict`**: each step and each session ends with exactly one of the role's verdicts, a plain summary, and a line
-  per success criterion.
+- **`verdict`**: each step and each session ends with exactly one of the role's verdicts, a plain summary, a line per
+  success criterion and, where the report has one, the outcome in plain words for the person who asked.
 - **`progress-entry`**: in a repository that carries Infrared's agent harness (`.infrared/harness.json`), the session
-  appends a dated entry to the progress log the manifest names.
+  appends a dated entry to the progress log, whose path it asks of the harness's own CLI.
 - **`hand-off`**: how a finished Change reaches review, whether the session runs under `ir local work`, as a hosted
   agent step, or in a person's own clone; never a push to the default branch, and never a merge of your own pull
   request.
@@ -127,7 +127,11 @@ new version never reaches anyone. CI fails a pull request that changes a plugin 
 - **Major**: a skill or hook removed or renamed. While the major version is 0, a minor version may do this too, and
   its release notes say so.
 
-A release is tagged `<plugin>--v<version>`, such as `infrared-change--v0.31.0`: the tag `claude plugin tag` makes once
+A plugin's release notes are its `CHANGELOG.md`, newest first, such as
+[`plugins/infrared-change/CHANGELOG.md`](plugins/infrared-change/CHANGELOG.md), written in the pull request that
+raises its version.
+
+A release is tagged `<plugin>--v<version>`, such as `infrared-change--v0.32.0`: the tag `claude plugin tag` makes once
 it has checked that the plugin's manifest and the marketplace agree.
 
 ## Checks
