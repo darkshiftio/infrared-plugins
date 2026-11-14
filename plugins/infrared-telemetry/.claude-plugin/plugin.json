@@ -1,0 +1,19 @@
+{
+  "name": "infrared-telemetry",
+  "displayName": "Infrared telemetry",
+  "version": "0.1.0",
+  "description": "Records your Claude Code sessions in clones of your org's Product repositories as Sessions in Infrared, through ir, signed in to your install: the Product, the branch, tool calls by name, files edited, commits, pushes, the pull request, tokens and a cost estimate; never a prompt, a word of the conversation, a path or a file's content. Without ir signed in, it does nothing.",
+  "author": {
+    "name": "Darkshift",
+    "url": "https://darkshift.io"
+  },
+  "homepage": "https://darkshift.io",
+  "repository": "https://github.com/darkshiftio/infrared-plugins",
+  "license": "Apache-2.0",
+  "keywords": [
+    "infrared",
+    "telemetry",
+    "sessions",
+    "hooks"
+  ]
+}
