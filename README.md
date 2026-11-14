@@ -3,10 +3,12 @@
 [Infrared](https://darkshift.io) is Darkshift's software factory for people who work with agents: agents build,
 review and verify each Change, and nothing reaches production without you.
 
-This repository is `infrared`, a [Claude Code](https://code.claude.com/docs) plugin marketplace. It holds one plugin:
+This repository is `infrared`, a [Claude Code](https://code.claude.com/docs) plugin marketplace. It holds two plugins:
 
 - **`infrared-change`**: Infrared's change conventions as skills and hooks. How a Change is branched, committed,
   described, proved and handed over for review, and how a rollout flag is added, turned on and retired.
+- **`infrared-telemetry`**: hooks that record your Claude Code sessions in Infrared, as Sessions of your org, through
+  `ir`, Infrared's command-line tool: counts and names, never your conversation.
 
 ## Install
 
@@ -15,6 +17,7 @@ Add the marketplace, then install the plugin from it:
 ```sh
 claude plugin marketplace add darkshiftio/infrared-plugins
 claude plugin install infrared-change@infrared
+claude plugin install infrared-telemetry@infrared
 ```
 
 Or in one step, which adds the marketplace first when it is not there yet:
@@ -55,9 +58,10 @@ A repository can offer the plugin to everyone who works in it. Add this to its `
 - `autoUpdate` asks Claude Code to update the marketplace, and the plugins installed from it, each time it starts.
 - `enabledPlugins` turns the plugin on in this repository.
 
-Settings install nothing on their own: each person still installs the plugin once, with the commands above.
+Settings install nothing on their own: each person still installs the plugin once, with the commands above. To offer
+session recording too, add `"infrared-telemetry@infrared": true` beside it.
 
-## What it does
+## What `infrared-change` does
 
 ### Skills
 
@@ -102,6 +106,37 @@ Claude Code loads a skill when the work in front of it matches the skill's descr
 Nothing. The plugin makes no network requests and keeps no data. Its hooks read the event Claude Code hands them, run
 read-only `git` commands against the local repository, and answer Claude Code. Its skills are text that Claude reads.
 
+## What `infrared-telemetry` does
+
+It records your Claude Code sessions in Infrared, so the work you do in your own Claude Code counts with the work
+Infrared's agents do. It needs `ir`, Infrared's command-line tool, on your `PATH` and signed in to your Infrared install
+(`ir login`).
+
+### Hooks
+
+- **At `SessionStart`**, it runs `ir session start` with the event Claude Code hands the hook, unread. `ir` matches the
+  clone to one of your org's Products and records that a session started; what it prints, which Session records it,
+  is added to the session's context.
+- **At `Stop` and at `SessionEnd`**, it runs `ir session report`: the session's figures so far, and its end.
+
+The hooks never get in the way. They exit 0 whatever happens, with at most one line on standard error. Without `ir` on
+`PATH`, signed in, or in a clone that is none of your org's Products, nothing is recorded and the session goes on.
+
+### What it sends
+
+The hooks send nothing themselves: they make no network requests, keep no data and read no file. `ir` sends, to the
+Infrared install it is signed in to:
+
+- **who and where**: you, as you signed in; the Product, its repository and branch, and the issue the branch names;
+  Claude Code's version; when the session started and ended;
+- **what was done, as counts and names**: tool calls by tool name, files edited, commits (each one's sha and subject,
+  as the forge holds them), pushes, the pull request opened, tokens and turns, a cost estimate at list prices, and the
+  plugins, skills and agents used.
+
+Never a prompt, a word of the conversation, a path or a file's content. Your org's admins decide whether its people's
+sessions are recorded. To stop recording on your machine, disable the plugin:
+`claude plugin disable infrared-telemetry@infrared`.
+
 ## Updating
 
 Where the marketplace is declared with `autoUpdate` on, Claude Code updates it, and the plugins installed from it, each
@@ -110,6 +145,7 @@ time it starts. To update by hand:
 ```sh
 claude plugin marketplace update infrared
 claude plugin update infrared-change@infrared
+claude plugin update infrared-telemetry@infrared
 ```
 
 Then restart Claude Code.
@@ -142,6 +178,7 @@ the repository's top level:
 ```sh
 claude plugin validate --strict .claude-plugin/marketplace.json
 claude plugin validate --strict plugins/infrared-change
+claude plugin validate --strict plugins/infrared-telemetry
 node --test "plugins/*/test/*.test.mjs"
 scripts/check-names.sh
 scripts/check-version.sh origin/main

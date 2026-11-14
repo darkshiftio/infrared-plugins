@@ -11,6 +11,12 @@
       "source": "./plugins/infrared-change",
       "description": "Infrared's change conventions as skills and hooks: a branch of its own for each Change, conventional commits, the pull request's body, evidence, the verdict, the progress entry, the hand-off and the rollout-flag lifecycle; a hook that refuses a commit whose subject is not conventional, and one that asks for the pull request's body before a builder session in ir local work ends.",
       "category": "development"
+    },
+    {
+      "name": "infrared-telemetry",
+      "source": "./plugins/infrared-telemetry",
+      "description": "Records your Claude Code sessions in clones of your org's Product repositories as Sessions in Infrared, through ir, signed in to your install: the Product, the branch, tool calls by name, files edited, commits, pushes, the pull request, tokens and a cost estimate; never a prompt, a word of the conversation, a path or a file's content. Without ir signed in, it does nothing.",
+      "category": "monitoring"
     }
   ]
 }
