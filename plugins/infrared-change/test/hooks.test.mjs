@@ -125,5 +125,8 @@ test("the plugin's shape: the manifest, the hooks it names, and the catalog's sk
     for (const never of [/darkshift/i, /local-?red/i, /\bADR [0-9]/, /\bTODO\b/]) {
       assert.ok(!never.test(text), `${s} names ${never}, which is one organization's own`);
     }
+    // The harness is .infrared/, the one place the commit-subject hook looks for it (HARNESS_MANIFEST); the catalog's
+    // text finds it in any top-level dot directory, and no skill here does.
+    assert.ok(!/dot directory|name starts with a dot|named it otherwise/i.test(text), `${s} finds the harness outside .infrared/`);
   }
 });
