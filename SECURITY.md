@@ -26,5 +26,5 @@ We reply on the report, and tell you there when a fix ships.
 ## Supported versions
 
 Only the latest version of each plugin is supported. A fix ships as a new version of the plugin it affects; to take
-it, run `claude plugin marketplace update infrared`, then `claude plugin update infrared-change@infrared` (see
-[README.md](README.md), Updating).
+it, run `claude plugin marketplace update infrared`, then `claude plugin update <plugin>@infrared`, such as
+`infrared-change@infrared` or `infrared-telemetry@infrared` (see [README.md](README.md), Updating).
