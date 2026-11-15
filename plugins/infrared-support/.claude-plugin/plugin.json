@@ -1,0 +1,19 @@
+{
+  "name": "infrared-support",
+  "displayName": "Infrared support",
+  "version": "0.1.0",
+  "description": "Infrared's support agent in your own Claude Code: it answers how to do something in Infrared, why a Change, run, build or deployment stopped or failed, and where something stands, from Infrared's public docs and your org's own records read through ir, and changes nothing. A hook holds it to ir's read commands and the docs; what needs a person, it writes up for them.",
+  "author": {
+    "name": "Darkshift",
+    "url": "https://darkshift.io"
+  },
+  "homepage": "https://darkshift.io",
+  "repository": "https://github.com/darkshiftio/infrared-plugins",
+  "license": "Apache-2.0",
+  "keywords": [
+    "infrared",
+    "support",
+    "agent",
+    "troubleshooting"
+  ]
+}

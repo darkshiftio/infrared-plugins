@@ -19,12 +19,14 @@ We reply on the report, and tell you there when a fix ships.
 
 ## Scope
 
-- The hooks, which run on your machine with your permissions whenever Claude Code runs them.
-- The skills, where an instruction could lead Claude to do something unsafe.
+- The hooks, which run on your machine with your permissions whenever Claude Code runs them, and the support agent's
+  read-only check among them, where a call it should refuse gets through.
+- The skills and the agent, where an instruction could lead Claude to do something unsafe.
 - The marketplace's manifest, and this repository's CI.
 
 ## Supported versions
 
 Only the latest version of each plugin is supported. A fix ships as a new version of the plugin it affects; to take
 it, run `claude plugin marketplace update infrared`, then `claude plugin update <plugin>@infrared`, such as
-`infrared-change@infrared` or `infrared-telemetry@infrared` (see [README.md](README.md), Updating).
+`infrared-change@infrared`, `infrared-telemetry@infrared` or `infrared-support@infrared` (see [README.md](README.md),
+Updating).
