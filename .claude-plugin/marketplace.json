@@ -17,6 +17,12 @@
       "source": "./plugins/infrared-telemetry",
       "description": "Records your Claude Code sessions in clones of your org's Product repositories as Sessions in Infrared, through ir, signed in to your install: the Product, the branch, tool calls by name, files edited, commits, pushes, the pull request, tokens and a cost estimate; never a prompt, a word of the conversation, a path or a file's content. Without ir signed in, it does nothing.",
       "category": "monitoring"
+    },
+    {
+      "name": "infrared-support",
+      "source": "./plugins/infrared-support",
+      "description": "Infrared's support agent in your own Claude Code: it answers how to do something in Infrared, why a Change, run, build or deployment stopped or failed, and where something stands, from Infrared's public docs and your org's own records read through ir, and changes nothing. A hook holds it to ir's read commands and the docs; what needs a person, it writes up for them.",
+      "category": "productivity"
     }
   ]
 }

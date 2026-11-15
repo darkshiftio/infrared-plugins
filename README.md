@@ -3,12 +3,16 @@
 [Infrared](https://darkshift.io) is Darkshift's software factory for people who work with agents: agents build,
 review and verify each Change, and nothing reaches production without you.
 
-This repository is `infrared`, a [Claude Code](https://code.claude.com/docs) plugin marketplace. It holds two plugins:
+This repository is `infrared`, a [Claude Code](https://code.claude.com/docs) plugin marketplace. It holds three
+plugins:
 
 - **`infrared-change`**: Infrared's change conventions as skills and hooks. How a Change is branched, committed,
   described, proved and handed over for review, and how a rollout flag is added, turned on and retired.
 - **`infrared-telemetry`**: hooks that record your Claude Code sessions in Infrared, as Sessions of your org, through
   `ir`, Infrared's command-line tool: counts and names, never your conversation.
+- **`infrared-support`**: Infrared's support agent, in your own Claude Code. It answers how to do something in
+  Infrared, why something stopped or failed, and where it stands, from Infrared's docs and your org's own records, and
+  changes nothing.
 
 ## Install
 
@@ -18,6 +22,7 @@ Add the marketplace, then install the plugin from it:
 claude plugin marketplace add darkshiftio/infrared-plugins
 claude plugin install infrared-change@infrared
 claude plugin install infrared-telemetry@infrared
+claude plugin install infrared-support@infrared
 ```
 
 Or in one step, which adds the marketplace first when it is not there yet:
@@ -59,7 +64,8 @@ A repository can offer the plugin to everyone who works in it. Add this to its `
 - `enabledPlugins` turns the plugin on in this repository.
 
 Settings install nothing on their own: each person still installs the plugin once, with the commands above. To offer
-session recording too, add `"infrared-telemetry@infrared": true` beside it.
+session recording too, add `"infrared-telemetry@infrared": true` beside it, and for the support agent,
+`"infrared-support@infrared": true`.
 
 ## What `infrared-change` does
 
@@ -137,6 +143,40 @@ Never a prompt, a word of the conversation, a path or a file's content. Your org
 sessions are recorded. To stop recording on your machine, disable the plugin:
 `claude plugin disable infrared-telemetry@infrared`.
 
+## What `infrared-support` does
+
+It adds Infrared's support agent, `support`, to your Claude Code. Ask Claude a question about Infrared and it hands
+the question to the agent; or name the agent yourself, `@agent-infrared-support:support`, followed by the question.
+The agent answers:
+
+- **how to do something,** from Infrared's public docs, <https://docs.infrared.darkshift.io>, and `ir`'s help;
+- **why a Change, a run, a build or a deployment stopped or failed,** from your org's records: the step or zone that
+  stopped, its message, the build's log, matched against the docs' troubleshooting page and the faults the docs don't
+  list yet;
+- **where something stands, and who it waits on:** each step's and zone's phase, what runs where, who approved it.
+
+Each answer cites the command or the page it came from. When a person must act (you, your org's admin, or your
+install's operator), the agent says who and the exact command, and writes a note you can send them. It runs on
+your session's model, in at most 25 turns, and aims to answer within ten tool calls. It needs `ir` on your `PATH`, signed in
+to your Infrared install (`ir login`); without it, it answers from the docs alone.
+
+### Hooks
+
+- **Before every Bash and WebFetch call,** a check runs that acts only inside this plugin's agents. There, it lets
+  through `ir`'s read commands (such as `ir run get`, `ir deployment build-log` and `ir product zones`), git's read
+  commands, `date`, `command -v` and `which`, piped at most into `jq`, `grep` or `head`, and pages of Infrared's docs,
+  Claude Code's docs and this repository. It refuses anything else, with the reason, so the agent tells you what to
+  run instead: never a command that changes something, or `ir --server`, which would send your token elsewhere.
+- **Your own session's calls,** and every other agent's, pass the check untouched. It reads only the event Claude Code
+  hands it, and needs `node`, version 22 or later, on your `PATH`; without it, the agent is read-only by its
+  instructions alone, and your permission prompts still apply.
+
+### What it sends
+
+The plugin sends nothing itself, and keeps no data. The agent runs `ir`'s read commands, which read from the Infrared
+install `ir` is signed in to, as you; and it fetches pages of the docs. Its questions and answers are part of your
+Claude Code conversation, and go where your Claude Code sends it.
+
 ## Updating
 
 Where the marketplace is declared with `autoUpdate` on, Claude Code updates it, and the plugins installed from it, each
@@ -146,6 +186,7 @@ time it starts. To update by hand:
 claude plugin marketplace update infrared
 claude plugin update infrared-change@infrared
 claude plugin update infrared-telemetry@infrared
+claude plugin update infrared-support@infrared
 ```
 
 Then restart Claude Code.
@@ -179,6 +220,7 @@ the repository's top level:
 claude plugin validate --strict .claude-plugin/marketplace.json
 claude plugin validate --strict plugins/infrared-change
 claude plugin validate --strict plugins/infrared-telemetry
+claude plugin validate --strict plugins/infrared-support
 node --test "plugins/*/test/*.test.mjs"
 scripts/check-names.sh
 scripts/check-version.sh origin/main
