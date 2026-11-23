@@ -2,7 +2,8 @@
 name: progress-entry
 description: >-
   Append the dated entry a repository's agent harness expects to its progress log before finishing: what was done,
-  what was learned, what is next, under today's date. Use at the end of work in a repository that carries the harness
+  what was learned, what is next, under today's date, when the work commits straight to the default branch; work that
+  lands by pull request writes none, and its pull request carries them. Use at the end of work in a repository that carries the harness
   (.infrared/harness.json at its top level), or when asked to record progress.
 ---
 
@@ -10,6 +11,12 @@ description: >-
 
 A repository that carries Infrared's agent harness keeps an append-only log of what each session did, which the next
 session's orientation reads. The log is the repository's own record: write to it, never rewrite it.
+
+**Work that lands by pull request writes no entry.** On a branch, and in every Infrared Change, leave the log alone,
+even where the repository's instructions say to append to it: two branches appending to one log always conflict at the
+merge, and the conflict costs a full gate run for a line of prose. The pull request carries what was done, learned and
+next instead (the pull-request-body skill). Write the entry below only when your work commits straight to the default
+branch.
 
 1. **Find the harness.** It is `.infrared/` at the repository's top level, and its manifest is
    `.infrared/harness.json`. Resolve the log's path through the harness's own CLI rather than typing it. The manifest

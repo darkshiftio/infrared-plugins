@@ -3,6 +3,15 @@
 Each release of the plugin `infrared-change`, newest first. A release's version is the `version` in
 `.claude-plugin/plugin.json`, and its tag is `infrared-change--v<version>` (the repository's `README.md`, Versioning).
 
+## 0.33.0 (2026-11-22)
+
+One skill changed, and the hooks are unchanged.
+
+- **`progress-entry`**: work that lands by pull request writes no entry. On a branch, and in every Infrared Change,
+  the log is left alone even where a repository's instructions say to append to it, and the pull request carries what
+  was done, learned and next. Two branches appending to one log always conflicted at the merge. The same rule is in
+  Infrared's catalog and the agent harness template.
+
 ## 0.32.0 (2026-11-13)
 
 The skills now carry Infrared's catalog v0.35.0; 0.31.0 carried v0.30.0. Two skills changed, and the hooks are
